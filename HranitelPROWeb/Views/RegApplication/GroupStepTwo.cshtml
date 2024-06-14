@@ -1,0 +1,51 @@
+﻿@using HranitelPROWeb.Models.RegApplications
+@model GroupStepTwoViewModel
+<link href="/css/hide.css" rel="stylesheet"/>
+
+<style>
+    .input-validation-error{
+        border-color:red;
+    }
+</style>
+
+<h1>Оформление заявки</h1>  
+
+<div>
+    <form asp-controller="RegApplication" asp-action="GroupStepTwo" method="post">
+        <label asp-for="SelectTarget"></label>
+        <select asp-for="SelectTarget" class="form-control">
+            <option disabled selected>Не выбрано</option>
+            @foreach(var item in Model.Targets)
+            { <option>@item.IdCeli @item.Tekst</option> }           
+        </select>
+        <span asp-validation-for="SelectTarget" class="text-danger"></span>
+    
+        <label asp-for="SelectDivision"></label>
+        <select asp-for="SelectDivision" class="form-control">
+            <option disabled selected>Не выбрано</option>
+            @foreach(var item in Model.Divisions)
+            { <option>@item.IdPodrazdelenia г. @item.NazvanieGoroda ул. @item.NazvanieYlici ст. @item.NomerStroenia</option> }
+        </select>
+        <span asp-validation-for="SelectDivision" class="text-danger"></span>
+
+        <label asp-for="DateRegistration"></label>
+        <input type="date" asp-for="DateRegistration" class="form-control"/>
+        <span asp-validation-for="DateRegistration" class="text-danger"></span>
+
+        <h1>Список гостей</h1>
+        <ol class="rectangle">
+            @if(Model.Visitors != null)
+            {
+                @foreach(var item in Model.Visitors)
+                {
+                <li><a href="#">Гость: @item.Familia @item.Imya @item.Otchestvo 
+                    Паспорт: @item.SeriaPas @item.NomerPas</a></li>
+                }
+            }
+            <li><a asp-controller="RegApplication" asp-action="GroupStepOne">Вернуться к добавлению</a></li>
+        </ol>
+
+        <input type="submit" value="Оформить заявку" />
+        <span asp-validation-for="CountError" class="text-danger"></span>
+    </form>
+</div>

@@ -1,0 +1,24 @@
+﻿@using HranitelPROWeb.Models.User
+@model LoginViewModel
+<link href="/css/regStyles.css" rel="stylesheet"/>
+
+<body>
+  <div class="wrapper">
+    <h2>Авторизация</h2>
+    <form action="#">
+      <div class="input-box">
+        <input type="text" asp-for="LoginUser" placeholder="Логин">
+      </div>
+      <div class="input-box">
+        <input type="text" asp-for="Password" placeholder="Пароль">
+      </div>
+      <div class="policy">
+        <input type="checkbox" asp-for="RememberMe">
+        <h3>Оставаться в системе</h3>
+      </div>
+      <div class="input-box button">
+        <input type="Submit" value="Войти">
+      </div>
+    </form>
+  </div>
+</body>

@@ -1,4 +1,4 @@
-﻿namespace HranitelPROWeb.Models.User
+﻿namespace HranitelPROWeb.Models.Auth
 {
     public class RegistrationViewModel
     {

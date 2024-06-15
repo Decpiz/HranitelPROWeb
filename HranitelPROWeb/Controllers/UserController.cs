@@ -1,64 +1,52 @@
 ﻿using HranitelPROWeb.Data;
-using HranitelPROWeb.Data.Entities;
-using HranitelPROWeb.Models.User;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using HranitelPROWeb.Models.User;
+using HranitelPROWeb.Data.Entities;
 using System.Security.Claims;
+using HranitelPROWeb.Data.Repositories;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HranitelPROWeb.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
-        HranitelDBContext _dbContext;
+        private readonly HranitelDBContext _context;
 
-        [BindProperty]
-        public LoginViewModel Model { get; set; }
-
-        public UserController(HranitelDBContext dbContext, SignInManager<IdentityUser> signInManager)
+        private ProfileViewModel profileVM = new ProfileViewModel
         {
-            _dbContext = dbContext;
+            Applications = new List<Zajavki>(),
+            CurrentUser = new Polzovateli()
+        };
+
+        public UserController(HranitelDBContext context)
+        {
+            _context = context;
         }
 
-
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         public async Task<IActionResult> Profile()
         {
-            return View();
+            var appliRepository = new ZajavkiRepository(_context);
+            var userRepository = new UsersRepository(_context);
+
+            profileVM.CurrentUser = await userRepository.GetByLogin(HttpContext.User.Identity.Name);
+            profileVM.Applications = await appliRepository.GetByCurUser(profileVM.CurrentUser);
+            await appliRepository.LoadConnections(profileVM.Applications);
+
+            return View(await profileVM);
         }
 
-        public async Task<IActionResult> Login(LoginViewModel model)
+        [HttpPost]
+        public async Task<IActionResult> Profile(ProfileViewModel model)
         {
-            var user = await _dbContext.Polzovatelis
-                .FirstOrDefaultAsync(u => u.Login == model.LoginUser && u.Parol == model.Password);
 
-            if (user is null)
-            {
-                ViewBag.Error = "Некорректные логин и(или) пароль";
-            }
 
-            await AuthenticateAsync(user);
-            return RedirectToAction("Navigate", "RegApplication");
-        }
-
-        public async Task<IActionResult> Registration()
-        {
-            return View();
-        }
-
-        public async Task AuthenticateAsync(Polzovateli user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, user.IdPolzovatelia.ToString()),
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Login)
-            };
-
-            var id = new ClaimsIdentity(claims, "ApplicationCookie",
-                ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            return View(profileVM);
         }
     }
 }

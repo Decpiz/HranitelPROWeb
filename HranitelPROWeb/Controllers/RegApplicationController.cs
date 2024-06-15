@@ -2,6 +2,7 @@
 using HranitelPROWeb.Data.Entities;
 using HranitelPROWeb.Data.Repositories;
 using HranitelPROWeb.Models.RegApplications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HranitelPROWeb.Controllers

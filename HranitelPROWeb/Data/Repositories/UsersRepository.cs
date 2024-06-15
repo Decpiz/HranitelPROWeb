@@ -1,4 +1,5 @@
 ﻿using HranitelPROWeb.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -33,6 +34,13 @@ namespace HranitelPROWeb.Data.Repositories
         public async Task Login(string login, string password)
         {
 
+        }
+
+        public async Task<Polzovateli> GetByLogin(string login)
+        {
+            var user = _context.Polzovatelis.FirstOrDefaultAsync(u => u.Login == login);
+
+            return await user;
         }
     }
 }

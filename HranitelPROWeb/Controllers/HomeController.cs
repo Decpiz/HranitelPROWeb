@@ -2,6 +2,9 @@
 using HranitelPROWeb.Data.Entities;
 using HranitelPROWeb.Data.Repositories;
 using HranitelPROWeb.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -10,18 +13,19 @@ namespace HranitelPROWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly HranitelDBContext _context;
 
-        public HomeController(ILogger<HomeController> logger, HranitelDBContext dbContext)
-
+        public HomeController(ILogger<HomeController> logger, HranitelDBContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-       
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

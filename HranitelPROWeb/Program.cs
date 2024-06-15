@@ -1,8 +1,8 @@
 using HranitelPROWeb.Data;
+using HranitelPROWeb.Data.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +13,10 @@ var connString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<HranitelDBContext>(options => options.UseSqlServer(connString));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options => options.LoginPath = "/User/Login");
-builder.Services.AddAuthorization();
+    .AddCookie(options => options.LoginPath = "/auth/login");
+builder.Services.AddAuthentication();
+
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -30,6 +32,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

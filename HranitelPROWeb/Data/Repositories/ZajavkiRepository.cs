@@ -47,6 +47,59 @@ namespace HranitelPROWeb.Data.Repositories
                 .LastAsync();
         }
 
+        public async Task<List<Zajavki>> GetByCurUser(Polzovateli curUser)
+        {
+            var applications = new List<Zajavki>();
+            foreach (var appli in _context.Zajavkis)
+            {
+                if(appli.IdPolzovatelia == curUser.IdPolzovatelia)
+                {
+                    applications.Add(appli);
+                }
+            }
+
+            return applications;
+        }
+
+        public async Task LoadConnections(List<Zajavki> appliNotConn)
+        {
+            foreach (var appli in appliNotConn)
+            {
+                //Связь со статусом\\
+                var status = _context.Statusis.FirstOrDefault(s => s.IdStatusa == appli.IdStatusa);
+                appli.IdStatusaNavigation.Nazvanie = status.Nazvanie;
+                appli.IdStatusaNavigation.Color = status.Color;
+                //Связь со статусом\\
+
+                //Связь с подразделениями\\
+                var division = _context.Podrazdelenia.FirstOrDefault(d => d.IdPodrazdelenia == appli.IdPodrazdelenia);
+                appli.IdPodrazdeleniaNavigation.NazvanieGoroda = division.NazvanieGoroda;
+                appli.IdPodrazdeleniaNavigation.NazvanieYlici = division.NazvanieYlici;
+                appli.IdPodrazdeleniaNavigation.NomerStroenia = division.NomerStroenia;
+                //Связь с подразделениями\\
+
+                var group = _context.GrupZajavkis.Where(g => g.IdZajavki == appli.IdZajavki).ToList();
+                appli.GrupZajavkis = group;
+
+                int a = 5;
+            }
+        }
+
+        public async Task<List<Posetiteli>> GetVisitors(Zajavki appli)
+        {
+            var visitors = new List<Posetiteli>();
+
+            var groupID = _context.GrupZajavkis.Where(g => g.IdZajavki == appli.IdZajavki);
+            foreach(var group in groupID)
+            {
+                var visitor = await _context.Posetitelis.FirstOrDefaultAsync(v => v.IdPsetitelia == group.IdPosetitelia);
+
+                visitors.Add(visitor);
+            }
+
+            return visitors;
+        }
+
         public string AutoGenerateNumber()
         {
             string[] alphavit = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",

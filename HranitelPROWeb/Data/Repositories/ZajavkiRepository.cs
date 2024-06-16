@@ -12,9 +12,8 @@ namespace HranitelPROWeb.Data.Repositories
             _context = context;
         }
 
-        public async Task Add(int divisionId, int targetId, DateTime dateVisit, string userId = null)
+        public async Task Add(int userId, int divisionId, int targetId, DateTime dateVisit)
         {
-
             string numberToApplication = AutoGenerateNumber();
             foreach (Zajavki z in _context.Zajavkis.ToList())
             {
@@ -28,18 +27,13 @@ namespace HranitelPROWeb.Data.Repositories
             var application = new Zajavki
             {
                 NomerZajavki = numberToApplication,
-                IdPolzovatelia = int.Parse(userId),
+                IdPolzovatelia = userId,
                 IdPodrazdelenia = divisionId,
                 IdCeli = targetId,
                 IdStatusa = 3,
                 DataOformlenia = DateTime.Now,
                 DataPoseshenia = dateVisit
             };
-
-            if (application.IdPolzovatelia == null)
-            {
-                application.IdPolzovatelia = 7;
-            }
 
             await _context.Zajavkis.AddAsync(application);
             await _context.SaveChangesAsync();

@@ -135,11 +135,23 @@ namespace HranitelPROWeb.Controllers
                 var appliRepository = new ZajavkiRepository(_dbContext);
                 var usersRepository = new UsersRepository(_dbContext);
 
-                var curUser = await usersRepository.GetByLogin(HttpContext.User.Identity.Name);
+                if(HttpContext.User.Identity.IsAuthenticated)
+                {
+                    var curUser = await usersRepository.GetByLogin(HttpContext.User.Identity.Name);
 
-                await appliRepository.Add(int.Parse(model.SelectDivision.Split(' ')[0]),
-                    int.Parse(model.SelectTarget.Split(' ')[0]),
-                    model.DateRegistration, curUser.IdPolzovatelia.ToString());
+                    await appliRepository.Add(curUser.IdPolzovatelia,
+                        int.Parse(model.SelectDivision.Split(' ')[0]),
+                        int.Parse(model.SelectTarget.Split(' ')[0]),
+                        model.DateRegistration);
+                }
+                else
+                {
+                    await appliRepository.Add(7,
+                        int.Parse(model.SelectDivision.Split(' ')[0]),
+                        int.Parse(model.SelectTarget.Split(' ')[0]),
+                        model.DateRegistration);
+                }
+                
 
                 var appli = await appliRepository.GetLast();
 
@@ -222,11 +234,22 @@ namespace HranitelPROWeb.Controllers
                 var appliRepository = new ZajavkiRepository(_dbContext);
                 var usersRepository = new UsersRepository(_dbContext);
 
-                var curUser = await usersRepository.GetByLogin(HttpContext.User.Identity.Name);
+                if (HttpContext.User.Identity.IsAuthenticated)
+                {
+                    var curUser = await usersRepository.GetByLogin(HttpContext.User.Identity.Name);
 
-                await appliRepository.Add(int.Parse(model.SelectDivision.Split(' ')[0]),
-                    int.Parse(model.SelectTarget.Split(' ')[0]),
-                    model.DateRegistration, curUser.IdPolzovatelia.ToString());
+                    await appliRepository.Add(curUser.IdPolzovatelia,
+                        int.Parse(model.SelectDivision.Split(' ')[0]),
+                        int.Parse(model.SelectTarget.Split(' ')[0]),
+                        model.DateRegistration);
+                }
+                else
+                {
+                    await appliRepository.Add(7,
+                        int.Parse(model.SelectDivision.Split(' ')[0]),
+                        int.Parse(model.SelectTarget.Split(' ')[0]),
+                        model.DateRegistration);
+                }
 
                 var appli = await appliRepository.GetLast();
 

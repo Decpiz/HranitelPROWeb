@@ -38,7 +38,7 @@ namespace HranitelPROWeb.Controllers
             profileVM.Applications = await appliRepository.GetByCurUser(profileVM.CurrentUser);
             await appliRepository.LoadConnections(profileVM.Applications);
 
-            return View(await profileVM);
+            return View(profileVM);
         }
 
         [HttpPost]

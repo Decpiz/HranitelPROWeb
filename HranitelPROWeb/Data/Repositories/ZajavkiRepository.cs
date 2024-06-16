@@ -36,6 +36,11 @@ namespace HranitelPROWeb.Data.Repositories
                 DataPoseshenia = dateVisit
             };
 
+            if (application.IdPolzovatelia == null)
+            {
+                application.IdPolzovatelia = 7;
+            }
+
             await _context.Zajavkis.AddAsync(application);
             await _context.SaveChangesAsync();
         }

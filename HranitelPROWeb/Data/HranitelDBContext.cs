@@ -40,7 +40,7 @@ public partial class HranitelDBContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Server=WIN-D0O9AOUQLF2\\SQLEXPRESSSERVER;" +
-            "Database=HranitelPRO_DB_Tests2;" +
+            "Database=HranitelPRO_DB;" +
             "Trusted_Connection=True;" +
             "MultipleActiveResultSets=true;" +
             "TrustServerCertificate=True");

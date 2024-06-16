@@ -137,10 +137,9 @@ namespace HranitelPROWeb.Controllers
 
                 var curUser = await usersRepository.GetByLogin(HttpContext.User.Identity.Name);
 
-                await appliRepository.Add(curUser.IdPolzovatelia,
-                    int.Parse(model.SelectDivision.Split(' ')[0]),
+                await appliRepository.Add(int.Parse(model.SelectDivision.Split(' ')[0]),
                     int.Parse(model.SelectTarget.Split(' ')[0]),
-                    model.DateRegistration);
+                    model.DateRegistration, curUser.IdPolzovatelia.ToString());
 
                 var appli = await appliRepository.GetLast();
 
@@ -225,10 +224,9 @@ namespace HranitelPROWeb.Controllers
 
                 var curUser = await usersRepository.GetByLogin(HttpContext.User.Identity.Name);
 
-                await appliRepository.Add(curUser.IdPolzovatelia,
-                    int.Parse(model.SelectDivision.Split(' ')[0]),
+                await appliRepository.Add(int.Parse(model.SelectDivision.Split(' ')[0]),
                     int.Parse(model.SelectTarget.Split(' ')[0]),
-                    model.DateRegistration);
+                    model.DateRegistration, curUser.IdPolzovatelia.ToString());
 
                 var appli = await appliRepository.GetLast();
 

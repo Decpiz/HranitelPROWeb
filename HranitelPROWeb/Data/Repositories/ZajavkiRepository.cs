@@ -12,7 +12,7 @@ namespace HranitelPROWeb.Data.Repositories
             _context = context;
         }
 
-        public async Task Add(int userId, int divisionId, int targetId, DateTime dateVisit)
+        public async Task Add(int divisionId, int targetId, DateTime dateVisit, string userId = null)
         {
 
             string numberToApplication = AutoGenerateNumber();
@@ -28,7 +28,7 @@ namespace HranitelPROWeb.Data.Repositories
             var application = new Zajavki
             {
                 NomerZajavki = numberToApplication,
-                IdPolzovatelia = userId,
+                IdPolzovatelia = int.Parse(userId),
                 IdPodrazdelenia = divisionId,
                 IdCeli = targetId,
                 IdStatusa = 3,

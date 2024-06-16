@@ -1,0 +1,17 @@
+﻿@using HranitelPROWeb.Models.User
+@model ProfileViewModel
+
+<div style="width:80%; float:right">
+    @{
+        ViewData.TemplateInfo.HtmlFieldPrefix = "history";
+        await Html.RenderPartialAsync("History", Model);
+    }
+</div>
+<div style="width:20%; float:left">
+    @{
+        ViewData.TemplateInfo.HtmlFieldPrefix = "Profile";
+        await Html.RenderPartialAsync("Profile", Model);
+    }
+</div>
+
+

@@ -42,5 +42,18 @@ namespace HranitelPROWeb.Data.Repositories
 
             return await user;
         }
+
+        public async Task Update(Polzovateli curUser, string lastName, string name, string email, string patronopic = null)
+        {
+            var user = await _context.Polzovatelis.FirstOrDefaultAsync(u=>u.IdPolzovatelia == curUser.IdPolzovatelia);
+
+            user.Familia = lastName;
+            user.Imya = name;
+            user.Otchestvo = patronopic;
+            user.Email = email;
+
+            _context.Polzovatelis.Update(user);
+            await _context.SaveChangesAsync();
+        }
     }
 }

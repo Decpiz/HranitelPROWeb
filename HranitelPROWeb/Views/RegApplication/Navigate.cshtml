@@ -1,5 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-<a asp-controller="RegApplication" asp-action="GroupStepOne">Групповое посещение</a>
-<a asp-controller="RegApplication" asp-action="Solo">Личное посещение</a>
+﻿<link href="/css/btnRel.css" rel="stylesheet" />
+
+
+<div style="float: left; width: 50%;">
+    <a asp-controller="RegApplication" asp-action="Solo" style="float:right; margin-right: 20px" class="button-46">
+        <div class="text-center">
+            <img src="~/Images/iconSolo.png" style="max-width: 200px"/>
+            <p style="margin-top: 15px">Личное посещение</p>
+        </div>
+    </a>
+</div>
+
+<div style="float: left; width: 50%; align-content:start">
+    <a asp-controller="RegApplication" asp-action="GroupStepOne" style="float:left; margin-left: 20px" class="button-46">
+        <div class="text-center">
+            <img src="~/Images/iconGroup.png" style="max-width: 200px"/>
+            <p style="margin-top: 56px">Групповое посещение</p>
+        </div>
+    </a>
+</div>

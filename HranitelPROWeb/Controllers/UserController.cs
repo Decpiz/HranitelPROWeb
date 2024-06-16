@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using HranitelPROWeb.Models.User;
 using HranitelPROWeb.Data.Entities;
-using System.Security.Claims;
 using HranitelPROWeb.Data.Repositories;
 using Microsoft.AspNetCore.Authorization;
 
@@ -24,13 +23,10 @@ namespace HranitelPROWeb.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
+            profileVM.Appli = _context.Zajavkis.FirstOrDefault();
 
-        public async Task<IActionResult> Profile()
-        {
             var appliRepository = new ZajavkiRepository(_context);
             var userRepository = new UsersRepository(_context);
 
@@ -39,14 +35,51 @@ namespace HranitelPROWeb.Controllers
             await appliRepository.LoadConnections(profileVM.Applications);
 
             return View(profileVM);
+
+        }
+
+        public async Task<IActionResult> History([Bind(Prefix ="history")] ProfileViewModel model)
+        {
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Profile(ProfileViewModel model)
+        public async Task<IActionResult> History()
         {
+            return View(profileVM);
+        }
 
+        public async Task<IActionResult> Profile([Bind(Prefix ="profile")] ProfileViewModel model)
+        {
+            return View(profileVM);
+        }
+
+        public async Task<IActionResult> EditProfile()
+        {
+            var userRepository = new UsersRepository(_context);
+            profileVM.CurrentUser = await userRepository.GetByLogin(HttpContext.User.Identity.Name);
+
+            profileVM.LastName = profileVM.CurrentUser.Familia;
+            profileVM.Name = profileVM.CurrentUser.Imya;
+            profileVM.Patronomic = profileVM.CurrentUser.Otchestvo;
+            profileVM.Email = profileVM.CurrentUser.Email;
 
             return View(profileVM);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(ProfileViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var userRepository = new UsersRepository(_context);
+                var curUser = await userRepository.GetByLogin(HttpContext.User.Identity.Name);
+                await userRepository.Update(curUser, model.LastName, model.Name, model.Email, model.Patronomic);
+
+                return RedirectToAction("Index", "User");
+            }
+            return View(model);
+        }
+
     }
 }

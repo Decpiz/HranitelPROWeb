@@ -29,7 +29,7 @@
                         @if (@Context.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" title="Manage" asp-controller="User" asp-action="Profile">@Context.User.Identity.Name</a>
+                                <a class="nav-link text-dark" title="Manage" asp-controller="User" asp-action="index">@Context.User.Identity.Name</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link btn btn-link text-dark" asp-controller="Auth" asp-action="LogOut">Выйти</a>
@@ -38,10 +38,10 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Auth" asp-action="Registration">Register</a>
+                                <a class="nav-link text-dark" asp-controller="Auth" asp-action="Registration">Зарегистрироваться</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Auth" asp-action="Login">Login</a>
+                                <a class="nav-link text-dark" asp-controller="Auth" asp-action="Login">Войти</a>
                             </li>
                         }
                     </ul>

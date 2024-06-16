@@ -1,0 +1,32 @@
+﻿@using HranitelPROWeb.Models.User
+@model ProfileViewModel
+
+<style>
+    .input-validation-error{
+        border-color:red;
+    }
+</style>
+
+<h1>Редактировать профиль</h1>
+<div>
+    <form asp-controller="User" asp-action="EditProfile" method="post">
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName" class="text-danger"></span>
+
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+
+        <label asp-for="Patronomic"></label>
+        <input asp-for="Patronomic" class="form-control" />
+        <span asp-validation-for="Patronomic" class="text-danger"></span>
+
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+
+        <input type="submit" value="Сохранить" class="form-control" style="margin-top: 18px"/>
+        <span asp-validation-for="Error" class="text-danger"></span>
+    </form>
+</div>

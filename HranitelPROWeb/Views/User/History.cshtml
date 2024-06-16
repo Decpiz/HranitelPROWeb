@@ -1,0 +1,23 @@
+﻿@using HranitelPROWeb.Models.User
+@model ProfileViewModel
+
+<link href="/css/stylesProfile.css" rel="stylesheet" />
+
+<div class="container">
+  <h2>История заявок</h2>
+  <ul class="responsive-table">
+        @foreach (var z in Model.Applications)
+        {
+            <li class="table-row">
+                <div class="col col-1" data-label="Job Id">@z.NomerZajavki</div>
+                <div class="col col-2" data-label="Customer Name">Гостей: @z.GrupZajavkis.Count()</div>
+                <div class="col col-3" data-label="Amount">@z.DataOformlenia.ToString(format:"d")</div>
+                <div class="col col-4" data-label="Payment Status">
+                    <div class="statustext text-center" style="background: @z.IdStatusaNavigation.Color">
+                        <a>@z.IdStatusaNavigation.Nazvanie</a>
+                    </div>
+                </div>
+            </li>
+        }
+  </ul>
+</div>

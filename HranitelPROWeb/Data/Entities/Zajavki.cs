@@ -15,7 +15,7 @@ public partial class Zajavki
 
     public DateTime DataPoseshenia { get; set; }
 
-    public DateTime? DataOformlenia { get; set; }
+    public DateTime DataOformlenia { get; set; }
 
     public int IdCeli { get; set; }
 

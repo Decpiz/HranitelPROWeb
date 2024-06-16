@@ -1,0 +1,74 @@
+﻿@using HranitelPROWeb.Models.RegApplications
+@model SoloViewModel
+
+
+<link href="/css/hide.css" rel="stylesheet"/>
+
+<style>
+    .input-validation-error{
+        border-color:red;
+    }
+</style>
+
+
+<form asp-controller="RegApplication" asp-action="Solo" method="post">
+    <div style="float: left; width: 70%;">
+        <div style="margin-right: 50px; margin-bottom: 80px;">
+
+            <label asp-for="FirstName"></label>
+            <input asp-for="FirstName" class="form-control"/>
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control"/>
+            <span asp-validation-for="Name" class="text-danger"></span>
+
+            <label asp-for="Patronomic"></label>
+            <input asp-for="Patronomic" class="form-control"/>
+            <span asp-validation-for="Patronomic" class="text-danger"></span>
+
+            <label asp-for="PhoneNumber"></label>
+            <input asp-for="PhoneNumber" class="form-control"/>
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+
+            <label asp-for="DateBirthday"></label>
+            <input type="date" asp-for="DateBirthday" class="form-control"/>
+            <span asp-validation-for="DateBirthday" class="text-danger"></span>
+
+            <label asp-for="PasSeries"></label>
+            <input asp-for="PasSeries" class="form-control" />
+            <span asp-validation-for="PasSeries" class="text-danger"></span>
+
+            <label asp-for="PasNumber"></label>
+            <input asp-for="PasNumber" class="form-control" />
+            <span asp-validation-for="PasNumber" class="text-danger"></span>
+
+        </div>
+    </div>
+
+    <div style="float: right; width: 30%;">
+        <label asp-for="SelectTarget"></label>
+        <select asp-for="SelectTarget" class="form-control">
+            <option disabled selected>Не выбрано</option>
+            @foreach(var item in Model.Targets)
+            { <option>@item.IdCeli @item.Tekst</option> }           
+        </select>
+        <span asp-validation-for="SelectTarget" class="text-danger"></span>
+
+        <label asp-for="SelectDivision"></label>
+        <select asp-for="SelectDivision" class="form-control">
+            <option disabled selected>Не выбрано</option>
+            @foreach(var item in Model.Divisions)
+            { <option>@item.IdPodrazdelenia г. @item.NazvanieGoroda ул. @item.NazvanieYlici ст. @item.NomerStroenia</option> }
+        </select>
+        <span asp-validation-for="SelectDivision" class="text-danger"></span>
+
+        <label asp-for="DateRegistration"></label>
+        <input type="date" asp-for="DateRegistration" class="form-control"/>
+        <span asp-validation-for="DateRegistration" class="text-danger"></span>
+
+        <span asp-validation-for="Error" class="text-danger"></span>
+        <input type="submit" value="Оформить заявку" class="form-control;" style="width:50%; float:right; margin-top: 15px"/>
+
+    </div>
+</form>
